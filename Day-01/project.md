@@ -1,28 +1,32 @@
-Introduction to Amazon EC2
+# Introduction to Amazon EC2
+
 In this self-paced lab, you will practice using Amazon EC2. This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance. This lab requires approximately 60 minutes to complete.
 
 By the end of this lab, you will be able to:
 
-Launch a web server with termination protection enabled
-Monitor your EC2 instance
-Modify the security group that your web server is using to allow HTTP access
-Resize your Amazon EC2 instance to scale
-Explore EC2 limits
-Test termination protection
-Terminate your EC2 instance
+- Launch a web server with termination protection enabled
+- Monitor your EC2 instance
+- Modify the security group that your web server is using to allow HTTP access
+- Resize your Amazon EC2 instance to scale
+- Explore EC2 limits
+- Test termination protection
+- Terminate your EC2 instance
 
+### Tips for Success
 
-***************
-Solution
-****************
-Task 1: Launching your EC2 instance
+- Stay Organized: Keep track of the steps you perform to avoid confusion.
+- Double-Check Settings: Small mistakes in configurations can cause issues later on.
+- Use Documentation: AWS provides extensive documentation that can be helpful if you encounter issues.
+- Monitor Costs: Always be aware of the potential costs associated with running EC2 instances, even if they are small.
+- Security First: Always apply the principle of least privilege to your security groups and instances.
+
+### Task 1: Launching your EC2 instance
+
 In this task, you launch an EC2 instance with termination protection. Termination protection prevents you from accidentally terminating an EC2 instance. You also deploy your instance with a user data script in order to deploy a simple web server.
 
- 
-
-In the AWS Management Console on the Services menu, choose EC2.
-In the left navigation pane, choose EC2 Dashboard to ensure that you are on the dashboard page.
-Choose Launch instance, and then select Launch instance.
+1. In the AWS Management Console on the Services menu, choose EC2.
+2. In the left navigation pane, choose EC2 Dashboard to ensure that you are on the dashboard page.
+3. Choose Launch instance, and then select Launch instance.
 
 ![image](https://user-images.githubusercontent.com/89054489/232049688-348fe01e-3db2-4b06-ac89-b06e4426b98c.png)
 
