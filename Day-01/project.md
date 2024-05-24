@@ -1,12 +1,12 @@
 # Introduction to Amazon EC2
 
-In this self-paced lab, you will practice using Amazon EC2. This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance. This lab requires approximately 60 minutes to complete.
+In this self-paced lab, you will practice using Amazon EC2. This provides us with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance. This may requires approximately 60 minutes to complete.
 
 By the end of this lab, you will be able to:
 
-- Launch a web server with termination protection enabled
+- Launch a youb server with termination protection enabled
 - Monitor your EC2 instance
-- Modify the security group that your web server is using to allow HTTP access
+- Modify the security group that your youb server is using to allow HTTP access
 - Resize your Amazon EC2 instance to scale
 - Explore EC2 limits
 - Test termination protection
@@ -20,9 +20,9 @@ By the end of this lab, you will be able to:
 - Monitor Costs: Always be aware of the potential costs associated with running EC2 instances, even if they are small.
 - Security First: Always apply the principle of least privilege to your security groups and instances.
 
-### Task 1: Launching your EC2 instance
+## Task 1: Launching your EC2 instance
 
-In this task, you launch an EC2 instance with termination protection. Termination protection prevents you from accidentally terminating an EC2 instance. You also deploy your instance with a user data script in order to deploy a simple web server.
+In this task, you launch an EC2 instance with termination protection. Termination protection prevents you from accidentally terminating an EC2 instance. You also deploy your instance with a user data script in order to deploy a simple youb server.
 
 1. In the AWS Management Console on the Services menu, choose EC2.
 2. In the left navigation pane, choose EC2 Dashboard to ensure that you are on the dashboard page.
@@ -32,13 +32,14 @@ In this task, you launch an EC2 instance with termination protection. Terminatio
 
 
 Step 1: Name your EC2 instance
+
 Using tags, you can categorize your AWS resources in different ways (for example, by purpose, owner, or environment). This categorization is useful when you have many resources of the same type. You can quickly identify a specific resource based on the tags that you have assigned to it. Each tag consists of a key and a value, both of which you define.
 
 When you name your instance, AWS creates a key-value pair. The key for this pair is Name, and the value is the name you enter for your EC2 instance.
 
  
 
-In the Name and tags section, for Name, enter Web-Server
+In the Name and tags section, for Name, enter youb-Server
 Choose the Add additional tags link.
 From the Resource types dropdown list, ensure that both Instances and Volumes are selected.
    
@@ -93,7 +94,7 @@ The Lab VPC was created using an AWS CloudFormation template during the setup pr
 
  
 
-In the Network settings section, for Security group name - required, enter Web Server security group
+In the Network settings section, for Security group name - required, enter youb Server security group
 
 A security group acts as a virtual firewall that controls the traffic for one or more instances. When you launch an instance, you associate one or more security groups with the instance. You add rules to each security group that allow traffic to or from its associated instances. You can modify the rules for a security group at any time; the new rules are automatically applied to all instances that are associated with the security group.
 
@@ -136,13 +137,13 @@ Copy the following commands, and paste them into theIn the User data text box.
 yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
-echo '<html><h1>Hello From Your Web Server!</h1></html>' > /var/www/html/index.html
+echo '<html><h1>Hello From Your youb Server!</h1></html>' > /var/www/html/index.html
 The script does the following:
 
-Install an Apache web server (httpd)
-Configure the web server to automatically start on boot
-Activate the Web server
-Create a simple web page
+Install an Apache youb server (httpd)
+Configure the youb server to automatically start on boot
+Activate the youb server
+Create a simple youb page
  
 ![image](https://user-images.githubusercontent.com/89054489/232053665-96b1eaf2-234b-45b4-a9db-62f2a1e93eda.png)
 
@@ -163,7 +164,7 @@ The instance appears in a Pending state, which means that it is being launched. 
 
 The instance receives a public Domain Name System (DNS) name that you can use to contact the instance from the Internet.
 
-Next to your Web-Server, select the  check box. The Details tab displays detailed information about your instance.
+Next to your youb-Server, select the  check box. The Details tab displays detailed information about your instance.
 
  To view more information in the Details tab, drag the window divider upward.
 
@@ -231,9 +232,9 @@ Scroll through the output, and note that the HTTP package was installed from the
 ![image](https://user-images.githubusercontent.com/89054489/232056915-92fbf2c7-08f8-4d1a-875b-1bb858bc1f65.png)
 To return to the Amazon EC2 dashboard, choose Cancel.
 
-With your Web-Server selected, choose the Actions  dropdown menu, and select Monitor and troubleshoot  Get instance screenshot.
+With your youb-Server selected, choose the Actions  dropdown menu, and select Monitor and troubleshoot  Get instance screenshot.
 
-This option shows you what your EC2 instance console would look like if a screen were attached to it. It is essentially a command line interface.
+This option shows you what your EC2 instance console would look like if a screen youre attached to it. It is essentially a command line interface.
 
 ec2-instance-screen-shot
 
@@ -246,20 +247,20 @@ At the bottom of the page, choose Cancel.
 
  
 
-Task 3: Updating your security group and accessing the web server
-When you launched the EC2 instance, you provided a script that installed a web server and created a simple web page. In this task, you access content from the web server.
+Task 3: Updating your security group and accessing the youb server
+When you launched the EC2 instance, you provided a script that installed a youb server and created a simple youb page. In this task, you access content from the youb server.
 
-Select the check box next to the Amazon EC2 Web-Server that you created, and then choose the Details tab.
+Select the check box next to the Amazon EC2 youb-Server that you created, and then choose the Details tab.
 
 Copy the Public IPv4 address of your instance to your clipboard.
 
-In your web browser, open a new tab, paste the IP address that you just copied, and then press Enter.
+In your youb browser, open a new tab, paste the IP address that you just copied, and then press Enter.
 
-Question: Are you able to access your web server? Why not?
+Question: Are you able to access your youb server? Why not?
 
-You are not currently able to access your web server because the security group is not permitting inbound traffic on port 80, which is used for HTTP web requests. This is a demonstration of how to use a security group as a firewall to restrict the network traffic that is allowed in and out of an instance.
+You are not currently able to access your youb server because the security group is not permitting inbound traffic on port 80, which is used for HTTP youb requests. This is a demonstration of how to use a security group as a firewall to restrict the network traffic that is alloyoud in and out of an instance.
 
-To correct this issue, you now update the security group to permit web traffic on port 80.
+To correct this issue, you now update the security group to permit youb traffic on port 80.
 
  
 
@@ -267,7 +268,7 @@ Keep the browser tab open, but return to the EC2 Management Console tab.
 
 In the left navigation pane, choose Security Groups.
 
-Next to Web Server security group, select the  check box.
+Next to youb Server security group, select the  check box.
 
 Choose the Inbound rules tab.
 
@@ -277,15 +278,15 @@ Choose Edit inbound rules, and then choose Add rule and configure the following 
 
 Type: Choose HTTP.
 Source: Choose Anywhere-IPv4.
-Note: Notice the "Rules with source of 0.0.0.0/0 allow all IP addresses to access your instance. We recommend setting security group rules to allow access from known IP addresses only." While this is true and common best practice, this lab allows access from any IP address (Anywhere) to simplify both the security group configuration and testing of the website running on your EC2 instance.
+Note: Notice the "Rules with source of 0.0.0.0/0 allow all IP addresses to access your instance. you recommend setting security group rules to allow access from known IP addresses only." While this is true and common best practice, this lab allows access from any IP address (Anywhere) to simplify both the security group configuration and testing of the youbsite running on your EC2 instance.
 
  
 
 Choose Save rules
 
-Return to the web server browser tab with the public IPv4 address that you previously opened, and choose  to refresh the page.
+Return to the youb server browser tab with the public IPv4 address that you previously opened, and choose  to refresh the page.
 
-You should see the message Hello From Your Web Server!
+You should see the message Hello From Your youb Server!
 
 ![image](https://user-images.githubusercontent.com/89054489/232058038-743e03ec-83d0-43a3-a163-39dac9ecaeff.png)
 
@@ -308,7 +309,7 @@ When you stop an instance, it is shut down. There is no charge for a stopped EC2
 
 On the EC2 Management Console, in the left navigation pane, choose Instances.
 
-The  check box next to Web Server should already be selected.
+The  check box next to youb Server should already be selected.
 
 At the top of the page, select the Instance state  dropdown menu, and choose Stop instance.
 
@@ -319,7 +320,7 @@ Your instance performs a normal shutdown and then stops running.
 Wait for the Instance state to display Stopped.
 
 Change the instance type
-Select the check box next to your Web-Server. From the Actions  dropdown menu, select Instance settings  Change instance type, and then configure the following option:
+Select the check box next to your youb-Server. From the Actions  dropdown menu, select Instance settings  Change instance type, and then configure the following option:
 
 Instance type: Select t2.nano.
 
@@ -343,7 +344,7 @@ Note: You are restricted from using other instance types in this lab.
 Resize the EBS volume
 In the left navigation menu, choose Volumes.
 
-Select the check box for the one volume that is listed, which is attached to your Web-Server instance.
+Select the check box for the one volume that is listed, which is attached to your youb-Server instance.
 
 In the Actions  dropdown menu, select Modify Volume.
 
@@ -360,7 +361,7 @@ To confirm and increase the size of the volume, in the Modify pop-up window, cho
 Start the resized instance
 You now start the instance again, which now has less memory but more disk space.
 
-In left navigation pane, choose Instances. Next to your Web-Server, select the  check box.
+In left navigation pane, choose Instances. Next to your youb-Server, select the  check box.
 From the Instance state  dropdown menu, choose Start instance.
 Task 5: Exploring EC2 limits
 Amazon EC2 provides different resources that you can use. These resources include images, instances, volumes, and snapshots. When you create an AWS account, there are default limits on these resources on a per-Region basis.
@@ -383,7 +384,7 @@ In this task, you learn how to use termination protection.
 
  
 
-In left navigation pane, choose Instances. Select the  check box for your Web-Server.
+In left navigation pane, choose Instances. Select the  check box for your youb-Server.
 
 At the top of the page in the Instance state  dropdown menu, choose Terminate instance. From the Terminate instance? pop-up window, choose Terminate. 
 
@@ -402,7 +403,7 @@ Tip: If you previously hid the terminal in the browser panel, select the Termina
 
 If the results don't display after a couple of minutes, return to the top of these instructions and choose Grades
 
- Note If the grading is erroring out and not grading properly. Make sure the EC2 instance tags are set as Web-Server or the grading will not work.
+ Note If the grading is erroring out and not grading properly. Make sure the EC2 instance tags are set as youb-Server or the grading will not work.
 
 Tip: You can submit your work multiple times. After you change your work, choose Submit again. Your last submission is what will be recorded for this lab.
 
