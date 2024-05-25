@@ -1,410 +1,465 @@
 # Introduction to Amazon EC2
 
-In this self-paced lab, you will practice using Amazon EC2. This provides us with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance. This may requires approximately 60 minutes to complete.
+In this self-paced lab, we will practice using Amazon EC2. This provides us with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance.
 
-By the end of this lab, you will be able to:
+By the end of this lab, we will be able to:
 
-- Launch a youb server with termination protection enabled
-- Monitor your EC2 instance
-- Modify the security group that your youb server is using to allow HTTP access
-- Resize your Amazon EC2 instance to scale
+- Launch our server with termination protection enabled
+- Monitor our EC2 instance
+- Modify the security group that our server is using to allow HTTP access
+- Resize our Amazon EC2 instance to scale
 - Explore EC2 limits
 - Test termination protection
-- Terminate your EC2 instance
+- Terminate our EC2 instance
 
 ### Tips for Success
 
-- Stay Organized: Keep track of the steps you perform to avoid confusion.
+- Stay Organized: Keep track of the steps we perform to avoid confusion.
 - Double-Check Settings: Small mistakes in configurations can cause issues later on.
-- Use Documentation: AWS provides extensive documentation that can be helpful if you encounter issues.
+- Use Documentation: AWS provides extensive documentation that can be helpful if we encounter issues.
 - Monitor Costs: Always be aware of the potential costs associated with running EC2 instances, even if they are small.
-- Security First: Always apply the principle of least privilege to your security groups and instances.
+- Security First: Always apply the principle of least privilege to our security groups and instances.
 
-## Task 1: Launching your EC2 instance
+## Task 1: Launching our EC2 instance
 
-In this task, you launch an EC2 instance with termination protection. Termination protection prevents you from accidentally terminating an EC2 instance. You also deploy your instance with a user data script in order to deploy a simple youb server.
+In this task, we launch an EC2 instance with termination protection. Termination protection prevents accidentally terminating an EC2 instance. We also deploy our instance with a user data script to deploy a simple web server.
 
-1. In the AWS Management Console on the Services menu, choose EC2.
-2. In the left navigation pane, choose EC2 Dashboard to ensure that you are on the dashboard page.
-3. Choose Launch instance, and then select Launch instance.
+1. In the AWS Management Console on the Services menu, choose **EC2**.
+2. In the left navigation pane, choose **EC2 Dashboard** to ensure that we are on the dashboard page.
+3. Choose **Launch instance**, and then select **Launch instance**.
 
-![image](https://user-images.githubusercontent.com/89054489/232049688-348fe01e-3db2-4b06-ac89-b06e4426b98c.png)
+![Launch instance](https://user-images.githubusercontent.com/89054489/232049688-348fe01e-3db2-4b06-ac89-b06e4426b98c.png)
 
+### Step 1: Name the EC2 instance
 
-Step 1: Name your EC2 instance
+Using tags, we can categorize our AWS resources in different ways (for example, by purpose, owner, or environment). This categorization is useful when we have many resources of the same type. We can quickly identify a specific resource based on the tags that we have assigned to it. Each tag consists of a key and a value, both of which we define.
 
-Using tags, you can categorize your AWS resources in different ways (for example, by purpose, owner, or environment). This categorization is useful when you have many resources of the same type. You can quickly identify a specific resource based on the tags that you have assigned to it. Each tag consists of a key and a value, both of which you define.
+When we name our instance, AWS creates a key-value pair. The key for this pair is Name, and the value is the name we enter for our EC2 instance.
 
-When you name your instance, AWS creates a key-value pair. The key for this pair is Name, and the value is the name you enter for your EC2 instance.
+- In the **Name and tags** section, for **Name**, enter **our Server**.
+- Choose the **Add additional tags** link.
+- From the **Resource types** dropdown list, ensure that both **Instances** and **Volumes** are selected.
 
- 
+![Name and tags](https://user-images.githubusercontent.com/89054489/232050577-c19c8fb8-415e-4bac-8ace-7caabd5fa7c3.png)
 
-In the Name and tags section, for Name, enter youb-Server
-Choose the Add additional tags link.
-From the Resource types dropdown list, ensure that both Instances and Volumes are selected.
-   
-![image](https://user-images.githubusercontent.com/89054489/232050577-c19c8fb8-415e-4bac-8ace-7caabd5fa7c3.png)
+### Step 2: Choose an Amazon Machine Image (AMI)
 
-Step 2: Choose an Amazon Machine Image (AMI)
 An Amazon Machine Image (AMI) provides the information required to launch an instance, which is a virtual server in the cloud. An AMI includes the following:
 
-A template for the root volume for the instance (for example, an operating system or an application server with applications)
-Launch permissions that control which AWS accounts can use the AMI to launch instances
-A block device mapping that specifies the volumes to attach to the instance when it is launched
-The Quick Start list contains the most commonly used AMIs. You can also create your own AMI or select an AMI from the AWS Marketplace, an online store where you can sell or buy software that runs on AWS.
+- A template for the root volume for the instance (for example, an operating system or an application server with applications)
+- Launch permissions that control which AWS accounts can use the AMI to launch instances
+- A block device mapping that specifies the volumes to attach to the instance when it is launched
 
- 
+The Quick Start list contains the most commonly used AMIs. We can also create our own AMI or select an AMI from the AWS Marketplace, an online store where we can sell or buy software that runs on AWS.
 
-Locate the Application and OS Images (Amazon Machine Image) section. It is just below the Name and tags section.
-In the AMI Machine Image (AMI) box, notice that Amazon Linux 2 AMI is selected by default. Keep this setting.
- ![image](https://user-images.githubusercontent.com/89054489/232051021-32a3ac55-2c1b-4af4-ae82-a32992efc781.png)
+- Locate the **Application and OS Images (Amazon Machine Image)** section. It is just below the **Name and tags** section.
+- In the **AMI Machine Image (AMI)** box, notice that **Amazon Linux 2 AMI** is selected by default. Keep this setting.
 
+![Amazon Linux 2 AMI](https://user-images.githubusercontent.com/89054489/232051021-32a3ac55-2c1b-4af4-ae82-a32992efc781.png)
 
-Step 3: Choose an instance type
-Amazon EC2 provides a wide selection of instance types that are optimized to fit different use cases. Instance types comprise varying combinations of CPU, memory, storage, and networking capacity and give you the flexibility to choose the appropriate mix of resources for your applications. Each instance type includes one or more instance sizes so that you can scale your resources to the requirements of your target workload.
+### Step 3: Choose an instance type
 
-In this step, you choose a t2.micro instance. This instance type has 1 virtual CPU and 1 GiB of memory.
+Amazon EC2 provides a wide selection of instance types that are optimized to fit different use cases. Instance types comprise varying combinations of CPU, memory, storage, and networking capacity and give us the flexibility to choose the appropriate mix of resources for our applications. Each instance type includes one or more instance sizes so that we can scale our resources to the requirements of our target workload.
 
-Keep the default instance type, t2.micro.
-   
+In this step, we choose a t2.micro instance. This instance type has 1 virtual CPU and 1 GiB of memory.
 
-Step 4: Configure a key pair
-Amazon EC2 uses public key cryptography to encrypt and decrypt login information. To log in to your instance, you must create a key pair, specify the name of the key pair when you launch the instance, and provide the private key when you connect to the instance.
+- Keep the default instance type, **t2.micro**.
 
-In this lab, you do not log in to your instance, so you do not require a key pair.
+### Step 4: Configure a key pair
 
- 
+Amazon EC2 uses public key cryptography to encrypt and decrypt login information. To log in to our instance, we must create a key pair, specify the name of the key pair when we launch the instance, and provide the private key when we connect to the instance.
 
-In the Key pair (login) section, from the Key pair name - required dropdown list, choose Proceed without a key pair.
- ![image](https://user-images.githubusercontent.com/89054489/232051343-b4828929-396c-461f-a373-39fd8563e5a1.png)
+In this lab, we do not log in to our instance, so we do not require a key pair.
 
+- In the **Key pair (login)** section, from the **Key pair name - required** dropdown list, choose **Proceed without a key pair**.
 
-Step 5: Configure the network settings
-You use this pane to configure networking settings.
+![Key pair](https://user-images.githubusercontent.com/89054489/232051343-b4828929-396c-461f-a373-39fd8563e5a1.png)
 
-The virtual private cloud (VPC) indicates which VPC you want to launch the instance into. You can have multiple VPCs, including different ones for development, testing, and production.
+### Step 5: Configure the network settings
 
- 
+Use this pane to configure networking settings. The virtual private cloud (VPC) indicates which VPC we want to launch the instance into. We can have multiple VPCs, including different ones for development, testing, and production.
 
-In the Network settings section, choose Edit.
+- In the **Network settings** section, choose **Edit**.
+- From the **VPC - required** dropdown list, choose **Lab VPC**.
 
-From the VPC - required dropdown list, choose Lab VPC.
+The Lab VPC was created using an AWS CloudFormation template during the setup process of our lab. This VPC includes two public subnets in two different Availability Zones.
 
-The Lab VPC was created using an AWS CloudFormation template during the setup process of your lab. This VPC includes two public subnets in two different Availability Zones.
+- In the **Network settings** section, for **Security group name - required**, enter **our Server security group**.
 
- 
+A security group acts as a virtual firewall that controls the traffic for one or more instances. When we launch an instance, we associate one or more security groups with the instance. We add rules to each security group that allow traffic to or from its associated instances. We can modify the rules for a security group at any time; the new rules are automatically applied to all instances that are associated with the security group.
 
-In the Network settings section, for Security group name - required, enter youb Server security group
+In this lab, we do not log in to our instance using SSH. Removing SSH access improves the security of the instance.
 
-A security group acts as a virtual firewall that controls the traffic for one or more instances. When you launch an instance, you associate one or more security groups with the instance. You add rules to each security group that allow traffic to or from its associated instances. You can modify the rules for a security group at any time; the new rules are automatically applied to all instances that are associated with the security group.
+- To delete the existing SSH rule, next to **Security group rule 1**, choose **Remove**.
 
-In this lab, you do not log in to your instance using SSH. Removing SSH access improves the security of the instance.
+![Remove SSH rule](https://user-images.githubusercontent.com/89054489/232052841-ff252ddf-59e1-4101-87f8-65663c565848.png)
 
- 
+### Step 6: Add storage
 
-To delete the existing SSH rule, next to Security group rule 1, choose Remove.
-
- ![image](https://user-images.githubusercontent.com/89054489/232052841-ff252ddf-59e1-4101-87f8-65663c565848.png)
-
-
-Step 6: Add storage
 Amazon EC2 stores data on a network-attached virtual disk called Amazon Elastic Block Store (Amazon EBS).
 
-You launch the EC2 instance using a default 8 GiB disk volume. This is your root volume (also known as a boot volume).
+We launch the EC2 instance using a default 8 GiB disk volume. This is our root volume (also known as a boot volume).
 
- 
+- In the **Configure storage** pane, keep the default storage configuration.
 
-In the Configure storage pane, keep the default storage configuration.
- ![image](https://user-images.githubusercontent.com/89054489/232053065-da948bec-357c-46c6-9f7f-dd658daa9fc8.png)
+![Configure storage](https://user-images.githubusercontent.com/89054489/232053065-da948bec-357c-46c6-9f7f-dd658daa9fc8.png)
 
+### Step 7: Configure advanced details
 
-Step 7: Configure advanced details
-Expand the Advanced details pane.
+Expand the **Advanced details** pane.
 
- 
+When we no longer require an EC2 instance, we can terminate it, which means that the instance stops, and Amazon EC2 releases the instance's resources. We cannot restart a terminated instance. If we want to prevent our users from accidentally terminating the instance, we can enable termination protection for the instance, which prevents users from terminating instances.
 
-When you no longer require an EC2 instance, you can terminate it, which means that the instance stops, and Amazon EC2 releases the instance's resources. You cannot restart a terminated instance. If you want to prevent your users from accidentally terminating the instance, you can enable termination protection for the instance, which prevents users from terminating instances.
+- From the **Termination protection** dropdown list, choose **Enable**.
 
-From the Termination protection dropdown list, choose  Enable.
+When we launch an instance in Amazon EC2, we have the option of passing user data to the instance. These commands can be used to perform common automated configuration tasks and even run scripts after the instance starts. 
 
- 
+Copy the following commands, and paste them into the **User data** text box:
 
-When you launch an instance in Amazon EC2, you have the option of passing user data to the instance. These commands can be used to perform common automated configuration tasks and even run scripts after the instance starts. 
-
-Copy the following commands, and paste them into theIn the User data text box.
-
+```bash
 #!/bin/bash
 yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
-echo '<html><h1>Hello From Your youb Server!</h1></html>' > /var/www/html/index.html
+echo '<html><h1>Hello From Your our Server!</h1></html>' > /var/www/html/index.html
+```
+
 The script does the following:
+- Install an Apache web server (httpd)
+- Configure the web server to automatically start on boot
+- Activate the web server
+- Create a simple web page
 
-Install an Apache youb server (httpd)
-Configure the youb server to automatically start on boot
-Activate the youb server
-Create a simple youb page
- 
-![image](https://user-images.githubusercontent.com/89054489/232053665-96b1eaf2-234b-45b4-a9db-62f2a1e93eda.png)
+![Advanced details](https://user-images.githubusercontent.com/89054489/232053665-96b1eaf2-234b-45b4-a9db-62f2a1e93eda.png)
 
-![image](https://user-images.githubusercontent.com/89054489/232053752-2b8c8f28-1e31-4aec-b9a1-d1369fee3eff.png)
+### Step 8: Launch an EC2 instance
 
-Step 8: Launch an EC2 instance
-Now that you have configured your EC2 instance settings, it is time to launch your instance.
+Now that we have configured our EC2 instance settings, it is time to launch our instance.
 
- 
+- In the **Summary** section, choose **Launch instance**.
 
-In the Summary section, choose Launch instance.
-![image](https://user-images.githubusercontent.com/89054489/232054029-e7288212-91ba-4d7f-a2e3-4bc17d9c83be.png)
-![image](https://user-images.githubusercontent.com/89054489/232054153-1a5cba21-a60a-405c-b2cd-cea3190e83b2.png)
+![Launch instance](https://user-images.githubusercontent.com/89054489/232054029-e7288212-91ba-4d7f-a2e3-4bc17d9c83be.png)
+![Success](https://user-images.githubusercontent.com/89054489/232054153-1a5cba21-a60a-405c-b2cd-cea3190e83b2.png)
 
-Choose View all instances
+Choose **View all instances**.
 
-The instance appears in a Pending state, which means that it is being launched. It then changes to Running, which indicates that the instance has started booting. There will be a short time before you can access the instance.
+The instance appears in a **Pending** state, which means that it is being launched. It then changes to **Running**, which indicates that the instance has started booting. There will be a short time before we can access the instance.
 
-The instance receives a public Domain Name System (DNS) name that you can use to contact the instance from the Internet.
+The instance receives a public Domain Name System (DNS) name that we can use to contact the instance from the Internet.
 
-Next to your youb-Server, select the  check box. The Details tab displays detailed information about your instance.
+- Next to **our Server**, select the checkbox. The **Details** tab displays detailed information about our instance, including the public IPv4 address and DNS name.
+- Review the information displayed in the Details, Security and Networking tabs.
+- Wait for our instance to display the following. 
+   - Instance State: Running
+   - Status Checks:   2/2 checks passed
 
- To view more information in the Details tab, drag the window divider upward.
+- Refresh if needed
+![Running](https://user-images.githubusercontent.com/89054489/232054694-d95291ba-05bf-4972-951c-3d753dd29f77.png)
+![2/2 checks passed](https://user-images.githubusercontent.com/89054489/232055223-3e632c60-661c-4b97-b1cd-b1c3f81a2dc7.png)
+### Step 9: Open the web server in a web browser
 
-Review the information displayed in the Details, Security and Networking tabs.
+After the instance state changes to **Running**, we can use the public DNS name of the instance to open the web page that we created.
 
- 
+Open a new browser tab, and enter the following URL:
 
-Wait for your instance to display the following:
+```
+http://[Public_DNS]
+```
 
-Note: Refresh if needed.
+Replace `[Public_DNS]` with the public DNS name of our instance.
 
-Instance State:  Running
-Status Checks:   2/2 checks passed
- 
+After a short time, the web page appears with the text **Hello From Your our Server!**
 
- ![image](https://user-images.githubusercontent.com/89054489/232054694-d95291ba-05bf-4972-951c-3d753dd29f77.png)
-![image](https://user-images.githubusercontent.com/89054489/232055223-3e632c60-661c-4b97-b1cd-b1c3f81a2dc7.png)
- 
+![Web server](https://user-images.githubusercontent.com/89054489/232054408-24e476b1-01e5-4b7e-9269-9fc4218a2380.png)
 
-Task 2: Monitoring your instance
-Monitoring is an important part of maintaining the reliability, availability, and performance of your EC2 instances and your AWS solutions.
+We have successfully launched our EC2 instance.
 
-Choose the Status checks tab.
+## Task 2: Monitoring the EC2 instance
 
-With instance status monitoring, you can quickly determine whether Amazon EC2 has detected any problems that might prevent your instances from running applications. Amazon EC2 performs automated checks on every running EC2 instance to identify hardware and software issues.
+In this task, we monitor our EC2 instance using the AWS Management Console.
 
-Notice that both the System reachability and Instance reachability checks have passed.
+Monitoring is an important part of maintaining the reliability, availability, and performance of our EC2 instances and our AWS solutions.
 
-![image](https://user-images.githubusercontent.com/89054489/232055607-191b4a4d-c97e-489c-a669-2c711ab04c4a.png)
+Amazon CloudWatch is a monitoring service for AWS cloud resources and the applications that we run on AWS. We can use CloudWatch to collect and track metrics, collect and monitor log files, and set alarms. 
 
+### Step 1: Check Instance Status
 
-Choose the Monitoring tab.
+1. **Navigate to the EC2 Dashboard**
+  - Open the AWS Management Console.
+  - Go to the EC2 Dashboard.
 
-This tab displays Amazon CloudWatch metrics for your instance. Currently, there are not many metrics to display because the instance was recently launched.
+2. **Access the Status Checks Tab**
+  - Select your instance from the list.
+  - Click on the "Status checks" tab.
+  - Verify that both **System reachability** and **Instance reachability** checks have passed.
 
-You can chose a graph to see an expanded view.
+  ![Status Checks](https://user-images.githubusercontent.com/89054489/232055607-191b4a4d-c97e-489c-a669-2c711ab04c4a.png)
 
- Amazon EC2 sends metrics to Amazon CloudWatch for your EC2 instances. Basic (5 minute) monitoring is enabled by default. You can enable detailed (1 minute) monitoring.
+### Step 2: Monitor CloudWatch Metrics
 
- 
+1. **Go to the Monitoring Tab**
+  - With your instance selected, click on the "Monitoring" tab.
+  - Here, you can view Amazon CloudWatch metrics for your instance.
+  - You may see basic monitoring metrics at 5-minute intervals by default.
 
-At the top of the page, choose the Actions  dropdown menu. Select Monitor and troubleshoot  Get system log.
+This tab displays Amazon CloudWatch metrics for our instance. Currently, there are not many metrics to display because the instance was recently launched.
 
-The system log displays the console output of the instance, which is a valuable tool for diagnosing problems. It is especially useful for troubleshooting kernel problems and service configuration issues that could cause an instance to terminate or become unreachable before its SSH daemon can be started. If you do not see a system log, wait a few minutes and then try again.
+2. **Enable Detailed Monitoring (Optional)**
 
- ![image](https://user-images.githubusercontent.com/89054489/232056705-86e06703-c1e1-4188-af52-59847883c5dd.png)
+Amazon EC2 sends metrics to Amazon CloudWatch for our
+EC2 instances. Basic (5 minute) monitoring is enabled by default. You can enable detailed (1 minute) monitoring.
 
- 
+  - To get more granular data, enable detailed monitoring for 1-minute intervals.
 
-Scroll through the output, and note that the HTTP package was installed from the user data that you added when you created the instance. The entries in the system log should be similar to the following example:
+### Step 3: Access System Log
 
-[   26.760639] cloud-init[3280]: Installed:
-[   26.770051] cloud-init[3280]: httpd.x86_64 0:2.4.52-1.amzn2
-[   26.777748] cloud-init[3280]: Dependency Installed:
-[   26.781750] cloud-init[3280]: apr.x86_64 0:1.7.0-9.amzn2
-[   26.793739] cloud-init[3280]: apr-util.x86_64 0:1.6.1-5.amzn2.0.2
-[   26.796595] cloud-init[3280]: apr-util-bdb.x86_64 0:1.6.1-5.amzn2.0.2
-[   26.805964] cloud-init[3280]: generic-logos-httpd.noarch 0:18.0.0-4.amzn2
-[   26.817765] cloud-init[3280]: httpd-filesystem.noarch 0:2.4.52-1.amzn2
-[   26.829760] cloud-init[3280]: httpd-tools.x86_64 0:2.4.52-1.amzn2
-[   26.833753] cloud-init[3280]: mailcap.noarch 0:2.1.41-2.amzn2
-[   26.845761] cloud-init[3280]: mod_http2.x86_64 0:1.15.19-1.amzn2.0.1
-[   26.849762] cloud-init[3280]: Complete!
- 
-![image](https://user-images.githubusercontent.com/89054489/232056915-92fbf2c7-08f8-4d1a-875b-1bb858bc1f65.png)
-To return to the Amazon EC2 dashboard, choose Cancel.
+1. **Get System Log**
+  - At the top of the page, choose the **Actions** dropdown menu.
+  - Select **Monitor and troubleshoot > Get system log**.
+  - This displays the console output of the instance.
 
-With your youb-Server selected, choose the Actions  dropdown menu, and select Monitor and troubleshoot  Get instance screenshot.
+The system log displays the console output of the instance, which is a valuable tool for diagnosing problems. It is especially useful for troubleshooting kernel problems and service configuration issues that could cause an instance to terminate or become unreachable before its SSH daemon can be started. If we do not see a system log, wait a few minutes and then try again.
 
-This option shows you what your EC2 instance console would look like if a screen youre attached to it. It is essentially a command line interface.
+![Access System log](https://user-images.githubusercontent.com/89054489/232056705-86e06703-c1e1-4188-af52-59847883c5dd.png)
 
-ec2-instance-screen-shot
 
- If you are unable to reach your instance via SSH or RDP, you can capture a screenshot of your instance and view it as an image. This option provides visibility about the status of the instance and allows for quicker troubleshooting.
+2. **Review the System Log**
+  - Scroll through the log to verify that the HTTP package was installed as per your user data script.
+  - You should see entries similar to the example below:
+    
+    [   26.760639] cloud-init[3280]: Installed:
+    [   26.770051] cloud-init[3280]: httpd.x86_64 0:2.4.52-1.amzn2
+    [   26.777748] cloud-init[3280]: Dependency Installed:
+    [   26.781750] cloud-init[3280]: apr.x86_64 0:1.7.0-9.amzn2
+    [   26.793739] cloud-init[3280]: apr-util.x86_64 0:1.6.1-5.amzn2.0.2
+    [   26.796595] cloud-init[3280]: apr-util-bdb.x86_64 0:1.6.1-5.amzn2.0.2
+    [   26.805964] cloud-init[3280]: generic-logos-httpd.noarch 0:18.0.0-4.amzn2
+    [   26.817765] cloud-init[3280]: httpd-filesystem.noarch 0:2.4.52-1.amzn2
+    [   26.829760] cloud-init[3280]: httpd-tools.x86_64 0:2.4.52-1.amzn2
+    [   26.833753] cloud-init[3280]: mailcap.noarch 0:2.1.41-2.amzn2
+    [   26.845761] cloud-init[3280]: mod_http2.x86_64 0:1.15.19-1.amzn2.0.1
+    [   26.849762] cloud-init[3280]: Complete!
+    
+  ![system log](https://user-images.githubusercontent.com/89054489/232056915-92fbf2c7-08f8-4d1a-875b-1bb858bc1f65.png)
 
- ![image](https://user-images.githubusercontent.com/89054489/232057216-d68f078d-16b6-43f1-8d82-0546e50f8dca.png)
+3. **Return to the EC2 Dashboard**
 
+  - Click "Cancel" to exit the system log and return to the Amazon EC2 dashboard view.
 
-At the bottom of the page, choose Cancel.
+### Step 4: Capture Instance Screenshot
 
- 
+1. **Get Instance Screenshot**
+  - With your instance still selected, open the **Actions** dropdown menu.
+  - Choose **Monitor and troubleshoot > Get instance screenshot**.
+  - This captures an image of what your EC2 instance's console currently looks like.
 
-Task 3: Updating your security group and accessing the youb server
-When you launched the EC2 instance, you provided a script that installed a youb server and created a simple youb page. In this task, you access content from the youb server.
+  ![Instance Screenshot](https://user-images.githubusercontent.com/89054489/232057216-d68f078d-16b6-43f1-8d82-0546e50f8dca.png)
 
-Select the check box next to the Amazon EC2 youb-Server that you created, and then choose the Details tab.
+2. **Review the Screenshot**
+  - The screenshot provides a visual representation of your instance's console, useful for diagnosing issues if the instance is not reachable via SSH or RDP.
 
-Copy the Public IPv4 address of your instance to your clipboard.
+3. **Exit the Screenshot View**
+  - Click "Cancel" to return to the EC2 Dashboard.
 
-In your youb browser, open a new tab, paste the IP address that you just copied, and then press Enter.
+We now have a CloudWatch alarm set up to monitor the CPU utilization and troubleshoot your EC2 instances using the AWS Management Console. Regular monitoring helps ensure that your applications remain available and performant.
 
-Question: Are you able to access your youb server? Why not?
+## Task 3: Modifying the security group
 
-You are not currently able to access your youb server because the security group is not permitting inbound traffic on port 80, which is used for HTTP youb requests. This is a demonstration of how to use a security group as a firewall to restrict the network traffic that is alloyoud in and out of an instance.
+In this task, we modify the security group to allow HTTP for accessing the web server that while launching the EC2 instance, we provided a script that installed a web server and created a simple web page. In this task, you access content from the web server.
+#### Step 1: Copy the Public IPv4 Address
 
-To correct this issue, you now update the security group to permit youb traffic on port 80.
+1. **Select the EC2 instance**:
+  - Go to the EC2 Management Console.
+  - Select the checkbox next to the EC2 instance you created.
 
- 
+2. **Copy the Public IPv4 address**:
+  - Choose the **Details** tab.
+  - Copy the Public IPv4 address to your clipboard.
 
-Keep the browser tab open, but return to the EC2 Management Console tab.
+#### Step 2: Attempt to Access the Web Server
 
-In the left navigation pane, choose Security Groups.
+1. **Open a new browser tab**:
+  - Paste the copied IP address into the address bar and press Enter.
 
-Next to youb Server security group, select the  check box.
+2. **Check the Access**:
+  - If you can't access the server, it's likely because the security group does not allow inbound traffic on port 80 (HTTP).
 
-Choose the Inbound rules tab.
+![Details Tab](https://user-images.githubusercontent.com/89054489/232058038-743e03ec-83d0-43a3-a163-39dac9ecaeff.png)
 
-The security group currently has no rules.
+We are not currently able to access your web server because the security group is not permitting inbound traffic on port 80, which is used for HTTP web requests. This is a demonstration of how to use a security group as a firewall to restrict the network traffic that is allowed in and out of an instance.
 
-Choose Edit inbound rules, and then choose Add rule and configure the following options:
+### Step 3: Modify the security group
 
-Type: Choose HTTP.
-Source: Choose Anywhere-IPv4.
-Note: Notice the "Rules with source of 0.0.0.0/0 allow all IP addresses to access your instance. you recommend setting security group rules to allow access from known IP addresses only." While this is true and common best practice, this lab allows access from any IP address (Anywhere) to simplify both the security group configuration and testing of the youbsite running on your EC2 instance.
+- Locate the security group that is associated with **our Server**, and select the checkbox.
+- Choose **Edit inbound rules**.
+**Add a Rule for HTTP**:
+  - Choose **Add rule**.
+  - Configure the rule as follows:
+    - **Type**: HTTP
+    - **Source**: Anywhere-IPv4 (0.0.0.0/0)
 
- 
+- Note: Allowing traffic from Anywhere-IPv4 means any IP can access your instance, which is acceptable for testing purposes but not recommended for production.
 
-Choose Save rules
+![Browser](https://user-images.githubusercontent.com/89054489/232057931-b56b6dcd-7d80-4e4e-b5dc-5629a65fa6b7.png)
 
-Return to the youb server browser tab with the public IPv4 address that you previously opened, and choose  to refresh the page.
+![Security Groups](https://user-images.githubusercontent.com/89054489/232058351-80398444-16f9-46a0-bdad-c5aea2397767.png)
 
-You should see the message Hello From Your youb Server!
+### Step 4: Save the rule
 
-![image](https://user-images.githubusercontent.com/89054489/232058038-743e03ec-83d0-43a3-a163-39dac9ecaeff.png)
+- Choose **Save rules**.
 
+Our security group now allows HTTP traffic to our EC2 instance via HTTP, demonstrating a basic yet essential aspect of managing AWS security groups for EC2 instances.instance. This change might take a few minutes to take effect.
 
- ![image](https://user-images.githubusercontent.com/89054489/232057931-b56b6dcd-7d80-4e4e-b5dc-5629a65fa6b7.png)
+### Verify the chnges 
+- Return to the web server browser tab with the public IPv4 address that you previously opened, and choose to refresh the page.
 
-![image](https://user-images.githubusercontent.com/89054489/232058351-80398444-16f9-46a0-bdad-c5aea2397767.png)
-![image](https://user-images.githubusercontent.com/89054489/232058509-51ef3ee4-9c0a-4ef8-a87a-6d4c2cdab905.png)
 
-Task 4: Resizing your instance - instance type and EBS volume
-As your needs change, you might find that your instance is over utilized (too small) or under utilized (too large). If so, you can change the instance type. For example, if a t2.micro instance is too small for its workload, you can change it to an m5.medium instance. Similarly, you can change the size of a disk.
+![Inbound Rules](https://user-images.githubusercontent.com/89054489/232058509-51ef3ee4-9c0a-4ef8-a87a-6d4c2cdab905.png)
 
-Stop your instance
-Before you can resize an instance, you must stop it.
+You should see the message Hello From Your Web Server!
 
-When you stop an instance, it is shut down. There is no charge for a stopped EC2 instance, but the storage charge for attached EBS volumes remains.
+## Task 4: Resizing the instance
 
+In this task, we resize our instance to scale up its resources.
+As our needs change, we might find that our instance is over utilized (too small) or under utilized (too large). If so, we can change the instance type. For example, if a t2.micro instance is too small for its workload, we can change it to an m5.medium instance. Similarly, we can change the size of a disk.
 
- 
+Before you can resize an instance, we must stop it.
 
-On the EC2 Management Console, in the left navigation pane, choose Instances.
+When we stop an instance, it is shut down. There is no charge for a stopped EC2 instance, but the storage charge for attached EBS volumes remains
 
-The  check box next to youb Server should already be selected.
+#### Step 1: Stop Your Instance
 
-At the top of the page, select the Instance state  dropdown menu, and choose Stop instance.
+1. **Navigate to Instances**:
+   - Open the EC2 Management Console.
+   - In the left navigation pane, select **Instances**.
 
-In the Stop instance? pop-up window, choose Stop.
+2. **Stop the Instance**:
+   - Select the checkbox next to your server instance.
+   - At the top of the page, select the **Instance state** dropdown menu.
+   - Choose **Stop instance**.
+   - In the confirmation pop-up window, choose **Stop**.
+   - Wait for the instance state to display **Stopped**.
+  ![Stop Instance](https://user-images.githubusercontent.com/89054489/232184239-3b047a64-a3d2-4202-baaf-0ef3620d90cd.png)
 
-Your instance performs a normal shutdown and then stops running.
+  ![Stop Instance](https://user-images.githubusercontent.com/89054489/232184259-61629dbd-e958-4528-9c7e-4984f4bc4492.png)
 
-Wait for the Instance state to display Stopped.
+#### Step 2: Change the Instance Type
 
-Change the instance type
-Select the check box next to your youb-Server. From the Actions  dropdown menu, select Instance settings  Change instance type, and then configure the following option:
+1. **Select the Instance**:
+   - Ensure the checkbox next to your instance is selected.
+   - From the **Actions** dropdown menu, select **Instance settings** then **Change instance type**.
 
-Instance type: Select t2.nano.
+2. **Change Instance Type**:
+   - In the instance type selection window, choose **t2.nano**.
+   - Choose **Apply**.
 
- 
+   ![Change Instance Type](https://user-images.githubusercontent.com/89054489/232184324-17973b2a-ebec-48ba-97e3-1a7b393d905b.png)
+   ![Select t2.nano](https://user-images.githubusercontent.com/89054489/232184391-4f805399-a712-423c-872f-94bcc4f2a7e9.png)
 
-Choose Apply.
+#### Step 3: Resize the EBS Volume
 
-When the instance is started again, it is a t2.nano instance. 
+1. **Navigate to Volumes**:
+   - In the left navigation pane, select **Volumes**.
 
-Note: You are restricted from using other instance types in this lab.
+2. **Modify the Volume**:
+   - Select the checkbox for the volume attached to our instance.
+   - From the **Actions** dropdown menu, select **Modify Volume**.
 
-![image](https://user-images.githubusercontent.com/89054489/232184239-3b047a64-a3d2-4202-baaf-0ef3620d90cd.png)
-![image](https://user-images.githubusercontent.com/89054489/232184259-61629dbd-e958-4528-9c7e-4984f4bc4492.png)
-![image](https://user-images.githubusercontent.com/89054489/232184324-17973b2a-ebec-48ba-97e3-1a7b393d905b.png)
-![image](https://user-images.githubusercontent.com/89054489/232184391-4f805399-a712-423c-872f-94bcc4f2a7e9.png)
-![image](https://user-images.githubusercontent.com/89054489/232184554-45188099-3e45-4d59-9a93-e5ef4736b417.png)
-![image](https://user-images.githubusercontent.com/89054489/232184576-ee6cadcd-886e-4c4e-8ae5-b4b44a801440.png)
-![image](https://user-images.githubusercontent.com/89054489/232184660-b5086f7a-cab4-4914-8da2-bc7d4e39b09f.png)
- 
+3. **Increase Volume Size**:
+   - Change the **Size (GiB)** to **10**.
+   - Choose **Modify**.
+   - In the confirmation pop-up window, choose **Modify** again.
 
-Resize the EBS volume
-In the left navigation menu, choose Volumes.
+   ![Modify Volume](https://user-images.githubusercontent.com/89054489/232184554-45188099-3e45-4d59-9a93-e5ef4736b417.png)
+   ![Increase Volume Size](https://user-images.githubusercontent.com/89054489/232184576-ee6cadcd-886e-4c4e-8ae5-b4b44a801440.png)
 
-Select the check box for the one volume that is listed, which is attached to your youb-Server instance.
+#### Step 4: Restart the Resized Instance
 
-In the Actions  dropdown menu, select Modify Volume.
+Now start the instance again, which now has less memory but more disk space.
 
-The disk volume currently has a size of 8 GiB. You now increase the size of this disk.
+1. **Navigate to Instances**:
+  - Go back to the **Instances** page.
 
-Change the Size (GiB) to 10
+2. **Start the Instance**:
+  - Select the checkbox next to your instance.
+  - From the **Instance state** dropdown menu, choose **Start instance**.
 
-Choose Modify.
+  ![Start Instance](https://user-images.githubusercontent.com/89054489/232184660-b5086f7a-cab4-4914-8da2-bc7d4e39b09f.png)
 
-To confirm and increase the size of the volume, in the Modify pop-up window, choose Modify
+Now our EC2 instance will be resized to a t2.nano type with an increased EBS volume size of 10 GiB. This allows for adjusting resources as per the workload requirements while maintaining cost efficiency.
 
- 
 
-Start the resized instance
-You now start the instance again, which now has less memory but more disk space.
+## Task 5: Exploring EC2 limits
 
-In left navigation pane, choose Instances. Next to your youb-Server, select the  check box.
-From the Instance state  dropdown menu, choose Start instance.
-Task 5: Exploring EC2 limits
-Amazon EC2 provides different resources that you can use. These resources include images, instances, volumes, and snapshots. When you create an AWS account, there are default limits on these resources on a per-Region basis.
+In this task, we explore the limits of EC2 resources.
 
- 
+Amazon EC2 provides different resources that we can use. These resources include images, instances, volumes, and snapshots. When we create an AWS account, there are default limits on these resources on a per-Region basis.
 
-In the left navigation pane, choose Limits.
 
-Note: There is a limit on the number of instances that you can launch in this Region. When launching an instance, the request must not cause your usage to exceed the current instance limit in that Region.
+### Step 1: Open the Limits console
 
-You can request an increase for many of these limits.
-![image](https://user-images.githubusercontent.com/89054489/232184819-af553228-b891-400d-b2b5-efbbbaeccfd1.png)
+In the left navigation pane of the **EC2 Dashboard**, choose **Limits**.
 
- 
+### Step 2: View EC2 limits
 
-Task 6: Testing termination protection
-You can delete your instance when you no longer need it. This is referred to as terminating your instance. You cannot connect to or restart an instance after it has been terminated.
+The **Limits** page shows the current limits for our EC2 resources, such as the maximum number of instances, volumes, and elastic IP addresses.
 
-In this task, you learn how to use termination protection.
+### Step 3: Request a limit increase
 
- 
+If we need to increase a limit, we can request a limit increase. 
 
-In left navigation pane, choose Instances. Select the  check box for your youb-Server.
+- Choose the **Request limit increase** button.
+- Follow the instructions to submit a request to increase the limit.
 
-At the top of the page in the Instance state  dropdown menu, choose Terminate instance. From the Terminate instance? pop-up window, choose Terminate. 
+![Limits](https://user-images.githubusercontent.com/89054489/232184819-af553228-b891-400d-b2b5-efbbbaeccfd1.png)
 
-Note: At the top of the page, a message says Failed to terminate an instance: The instance 'i-xxxxxxxxxxxx' may not be terminated. Modify its 'disableApiTermination' instance attribute and try again. This message is a safeguard to prevent the accidental termination of an instance. If you really want to terminate the instance, you need to turn off the termination protection.
-![image](https://user-images.githubusercontent.com/89054489/232184868-fea311e0-3351-44f0-85d0-a10cf52bdf3a.png)
-![image](https://user-images.githubusercontent.com/89054489/232184919-c52e5ba6-fded-48f6-8a95-95a15aaef4dd.png)
 
- 
+## Task 6: Testing termination protection
 
-Submitting your work
-At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
+We can delete our instance when we no longer need it. This is referred to as terminating our instance. We cannot connect to or restart an instance after it has been terminated.
 
-Tip: If you previously hid the terminal in the browser panel, select the Terminal  check box in the upper right to expose the panel again. This option ensures that the lab instructions remain visible after you choose Submit.
+In this task, we test the termination protection feature.
 
- 
+### Step 1: Attempt to terminate the instance
 
-If the results don't display after a couple of minutes, return to the top of these instructions and choose Grades
+- In the left navigation pane of the **EC2 Dashboard**, choose **Instances**.
+- Next to **our Server**, select the checkbox.
+- Choose the **Instance state** dropdown menu, and select **Terminate instance**.
+![Termination](https://user-images.githubusercontent.com/89054489/232184868-fea311e0-3351-44f0-85d0-a10cf52bdf3a.png)
 
- Note If the grading is erroring out and not grading properly. Make sure the EC2 instance tags are set as youb-Server or the grading will not work.
 
-Tip: You can submit your work multiple times. After you change your work, choose Submit again. Your last submission is what will be recorded for this lab.
+A warning message appears, indicating that termination protection is enabled for the instance.
 
- 
+![termination failed](https://user-images.githubusercontent.com/89054489/232184919-c52e5ba6-fded-48f6-8a95-95a15aaef4dd.png)
+
+### Step 2: Disable termination protection
+
+- With the instance still selected, choose the **Actions** dropdown menu, and then select **Instance settings**.
+- Choose **Change termination protection**.
+- Select **Disable**, and then choose **Save**.
+
+### Step 3: Terminate the instance
+
+- Choose the **Instance state** dropdown menu, and select **Terminate instance**.
+
+The instance is terminated successfully.
+
+## Task 7: Terminating the instance
+
+In this task, we terminate our instance to avoid any further charges.
+
+### Step 1: Terminate the instance
+
+- In the left navigation pane of the **EC2 Dashboard**, choose **Instances**.
+- Next to **our Server**, select the checkbox.
+- Choose the **Instance state** dropdown menu, and select **Terminate instance**.
+
+### Step 2: Confirm termination
+
+- In the confirmation dialog box, choose **Terminate**.
+
+Our instance is terminated, and we no longer incur charges for it.
+
+## Conclusion
+
+In this lab, we launched, resized, managed, monitored, and terminated an Amazon EC2 instance. We also configured security groups, set up CloudWatch alarms, and tested termination protection. By completing these tasks, we gained hands-on experience with key features of Amazon EC2.
