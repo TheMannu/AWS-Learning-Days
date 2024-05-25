@@ -112,6 +112,9 @@ When we no longer require an EC2 instance, we can terminate it, which means that
 
 - From the **Termination protection** dropdown list, choose **Enable**.
 
+![Advanced details](https://user-images.githubusercontent.com/89054489/232053665-96b1eaf2-234b-45b4-a9db-62f2a1e93eda.png)
+
+
 When we launch an instance in Amazon EC2, we have the option of passing user data to the instance. These commands can be used to perform common automated configuration tasks and even run scripts after the instance starts. 
 
 Copy the following commands, and paste them into the **User data** text box:
@@ -130,7 +133,6 @@ The script does the following:
 - Activate the web server
 - Create a simple web page
 
-![Advanced details](https://user-images.githubusercontent.com/89054489/232053665-96b1eaf2-234b-45b4-a9db-62f2a1e93eda.png)
 
 ### Step 8: Launch an EC2 instance
 
@@ -168,9 +170,9 @@ http://[Public_DNS]
 
 Replace `[Public_DNS]` with the public DNS name of our instance.
 
-After a short time, the web page appears with the text **Hello From Your our Server!**
+After a short time, the web page appears with the text 
 
-![Web server](https://user-images.githubusercontent.com/89054489/232054408-24e476b1-01e5-4b7e-9269-9fc4218a2380.png)
+***Hello From Your our Server!***
 
 We have successfully launched our EC2 instance.
 
@@ -185,6 +187,7 @@ Amazon CloudWatch is a monitoring service for AWS cloud resources and the applic
 ### Step 1: Check Instance Status
 
 1. **Navigate to the EC2 Dashboard**
+
   - Open the AWS Management Console.
   - Go to the EC2 Dashboard.
 
@@ -220,13 +223,13 @@ EC2 instances. Basic (5 minute) monitoring is enabled by default. You can enable
 
 The system log displays the console output of the instance, which is a valuable tool for diagnosing problems. It is especially useful for troubleshooting kernel problems and service configuration issues that could cause an instance to terminate or become unreachable before its SSH daemon can be started. If we do not see a system log, wait a few minutes and then try again.
 
-![Access System log](https://user-images.githubusercontent.com/89054489/232056705-86e06703-c1e1-4188-af52-59847883c5dd.png)
+![System log](https://user-images.githubusercontent.com/89054489/232056705-86e06703-c1e1-4188-af52-59847883c5dd.png)
 
 
 2. **Review the System Log**
   - Scroll through the log to verify that the HTTP package was installed as per your user data script.
   - You should see entries similar to the example below:
-    
+    ```
     [   26.760639] cloud-init[3280]: Installed:
     [   26.770051] cloud-init[3280]: httpd.x86_64 0:2.4.52-1.amzn2
     [   26.777748] cloud-init[3280]: Dependency Installed:
@@ -239,7 +242,7 @@ The system log displays the console output of the instance, which is a valuable 
     [   26.833753] cloud-init[3280]: mailcap.noarch 0:2.1.41-2.amzn2
     [   26.845761] cloud-init[3280]: mod_http2.x86_64 0:1.15.19-1.amzn2.0.1
     [   26.849762] cloud-init[3280]: Complete!
-    
+    ```
   ![system log](https://user-images.githubusercontent.com/89054489/232056915-92fbf2c7-08f8-4d1a-875b-1bb858bc1f65.png)
 
 3. **Return to the EC2 Dashboard**
@@ -284,7 +287,7 @@ In this task, we modify the security group to allow HTTP for accessing the web s
 2. **Check the Access**:
   - If you can't access the server, it's likely because the security group does not allow inbound traffic on port 80 (HTTP).
 
-![Details Tab](https://user-images.githubusercontent.com/89054489/232058038-743e03ec-83d0-43a3-a163-39dac9ecaeff.png)
+![Access Denied](https://user-images.githubusercontent.com/89054489/232058038-743e03ec-83d0-43a3-a163-39dac9ecaeff.png)
 
 We are not currently able to access your web server because the security group is not permitting inbound traffic on port 80, which is used for HTTP web requests. This is a demonstration of how to use a security group as a firewall to restrict the network traffic that is allowed in and out of an instance.
 
@@ -300,9 +303,9 @@ We are not currently able to access your web server because the security group i
 
 - Note: Allowing traffic from Anywhere-IPv4 means any IP can access your instance, which is acceptable for testing purposes but not recommended for production.
 
-![Browser](https://user-images.githubusercontent.com/89054489/232057931-b56b6dcd-7d80-4e4e-b5dc-5629a65fa6b7.png)
+![Sequrity Group](https://user-images.githubusercontent.com/89054489/232057931-b56b6dcd-7d80-4e4e-b5dc-5629a65fa6b7.png)
 
-![Security Groups](https://user-images.githubusercontent.com/89054489/232058351-80398444-16f9-46a0-bdad-c5aea2397767.png)
+![Inbound Rules](https://user-images.githubusercontent.com/89054489/232058351-80398444-16f9-46a0-bdad-c5aea2397767.png)
 
 ### Step 4: Save the rule
 
@@ -314,7 +317,7 @@ Our security group now allows HTTP traffic to our EC2 instance via HTTP, demonst
 - Return to the web server browser tab with the public IPv4 address that you previously opened, and choose to refresh the page.
 
 
-![Inbound Rules](https://user-images.githubusercontent.com/89054489/232058509-51ef3ee4-9c0a-4ef8-a87a-6d4c2cdab905.png)
+![Browser](https://user-images.githubusercontent.com/89054489/232058509-51ef3ee4-9c0a-4ef8-a87a-6d4c2cdab905.png)
 
 You should see the message Hello From Your Web Server!
 
@@ -330,48 +333,50 @@ When we stop an instance, it is shut down. There is no charge for a stopped EC2 
 #### Step 1: Stop Your Instance
 
 1. **Navigate to Instances**:
-   - Open the EC2 Management Console.
-   - In the left navigation pane, select **Instances**.
+  - Open the EC2 Management Console.
+  - In the left navigation pane, select **Instances**.
 
 2. **Stop the Instance**:
-   - Select the checkbox next to your server instance.
-   - At the top of the page, select the **Instance state** dropdown menu.
-   - Choose **Stop instance**.
-   - In the confirmation pop-up window, choose **Stop**.
-   - Wait for the instance state to display **Stopped**.
-  ![Stop Instance](https://user-images.githubusercontent.com/89054489/232184239-3b047a64-a3d2-4202-baaf-0ef3620d90cd.png)
+  - Select the checkbox next to your server instance.
+  - At the top of the page, select the **Instance state** dropdown menu.
+  - Choose **Stop instance**.
+  - In the confirmation pop-up window, choose **Stop**.
+  - Wait for the instance state to display **Stopped**.
+![Stop Instance](https://user-images.githubusercontent.com/89054489/232184239-3b047a64-a3d2-4202-baaf-0ef3620d90cd.png)
 
-  ![Stop Instance](https://user-images.githubusercontent.com/89054489/232184259-61629dbd-e958-4528-9c7e-4984f4bc4492.png)
+![Stop Instance](https://user-images.githubusercontent.com/89054489/232184259-61629dbd-e958-4528-9c7e-4984f4bc4492.png)
 
 #### Step 2: Change the Instance Type
 
 1. **Select the Instance**:
-   - Ensure the checkbox next to your instance is selected.
-   - From the **Actions** dropdown menu, select **Instance settings** then **Change instance type**.
+  - Ensure the checkbox next to your instance is selected.
+  - From the **Actions** dropdown menu, select **Instance settings** then **Change instance type**.
 
 2. **Change Instance Type**:
-   - In the instance type selection window, choose **t2.nano**.
-   - Choose **Apply**.
+  - In the instance type selection window, choose **t2.nano**.
+  - Choose **Apply**.
 
-   ![Change Instance Type](https://user-images.githubusercontent.com/89054489/232184324-17973b2a-ebec-48ba-97e3-1a7b393d905b.png)
-   ![Select t2.nano](https://user-images.githubusercontent.com/89054489/232184391-4f805399-a712-423c-872f-94bcc4f2a7e9.png)
+![Change Instance Type](https://user-images.githubusercontent.com/89054489/232184324-17973b2a-ebec-48ba-97e3-1a7b393d905b.png)
+
+![Select t2.nano](https://user-images.githubusercontent.com/89054489/232184391-4f805399-a712-423c-872f-94bcc4f2a7e9.png)
 
 #### Step 3: Resize the EBS Volume
 
 1. **Navigate to Volumes**:
-   - In the left navigation pane, select **Volumes**.
+  - In the left navigation pane, select **Volumes**.
 
 2. **Modify the Volume**:
-   - Select the checkbox for the volume attached to our instance.
-   - From the **Actions** dropdown menu, select **Modify Volume**.
+  - Select the checkbox for the volume attached to our instance.
+  - From the **Actions** dropdown menu, select **Modify Volume**.
 
 3. **Increase Volume Size**:
-   - Change the **Size (GiB)** to **10**.
-   - Choose **Modify**.
-   - In the confirmation pop-up window, choose **Modify** again.
+  - Change the **Size (GiB)** to **10**.
+  - Choose **Modify**.
+  - In the confirmation pop-up window, choose **Modify** again.
 
-   ![Modify Volume](https://user-images.githubusercontent.com/89054489/232184554-45188099-3e45-4d59-9a93-e5ef4736b417.png)
-   ![Increase Volume Size](https://user-images.githubusercontent.com/89054489/232184576-ee6cadcd-886e-4c4e-8ae5-b4b44a801440.png)
+![Modify Volume](https://user-images.githubusercontent.com/89054489/232184554-45188099-3e45-4d59-9a93-e5ef4736b417.png)
+
+![Increase Volume Size](https://user-images.githubusercontent.com/89054489/232184576-ee6cadcd-886e-4c4e-8ae5-b4b44a801440.png)
 
 #### Step 4: Restart the Resized Instance
 
@@ -384,7 +389,7 @@ Now start the instance again, which now has less memory but more disk space.
   - Select the checkbox next to your instance.
   - From the **Instance state** dropdown menu, choose **Start instance**.
 
-  ![Start Instance](https://user-images.githubusercontent.com/89054489/232184660-b5086f7a-cab4-4914-8da2-bc7d4e39b09f.png)
+![Start Instance](https://user-images.githubusercontent.com/89054489/232184660-b5086f7a-cab4-4914-8da2-bc7d4e39b09f.png)
 
 Now our EC2 instance will be resized to a t2.nano type with an increased EBS volume size of 10 GiB. This allows for adjusting resources as per the workload requirements while maintaining cost efficiency.
 
