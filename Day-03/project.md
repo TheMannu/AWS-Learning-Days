@@ -1,12 +1,12 @@
-# Lab 3: Introduction to Amazon DynamoDB
+# Introduction to Amazon DynamoDB
 
 Amazon DynamoDB is a fast and flexible NoSQL database service designed for applications requiring consistent, single-digit millisecond latency at any scale. It is fully managed and supports both document and key-value data models. This flexibility makes it suitable for various applications, including mobile, web, gaming, advertising technology, and Internet of Things (IoT).
 
-In this, we will:
-1. Create a DynamoDB table.
-2. Enter data into the table.
-3. Query the table.
-4. Delete the table.
+- In this, we will:
+   - Create a DynamoDB table.
+   - Enter data into the table.
+   - Query the table.
+   - Delete the table.
 
 ## Objectives
 By completing this, we will learn how to:
