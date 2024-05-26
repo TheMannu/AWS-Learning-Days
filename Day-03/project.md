@@ -11,7 +11,7 @@ Amazon DynamoDB is a fast and flexible NoSQL database service designed for appli
 ## Objectives
 By completing this, we will learn how to:
 - Create a DynamoDB table.
-- Enter data into a DynamoDB table.
+- Enter data into a DynamoDB table.    
 - Query a DynamoDB table.
 - Delete a DynamoDB table.
 
