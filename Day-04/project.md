@@ -1,6 +1,6 @@
-# Lab 4 - Introduction to Amazon Relational Database Service (Amazon RDS)
+# Introduction to Amazon Relational Database Service (Amazon RDS)
 
-## Lab Overview
+## Overview
 
 Creating a database traditionally requires a database administrator or a systems administrator. In the cloud, this process is simplified using Amazon Relational Database Service (Amazon RDS).
 
