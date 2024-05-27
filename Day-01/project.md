@@ -467,4 +467,4 @@ Our instance is terminated, and we no longer incur charges for it.
 
 ## Conclusion
 
-In this lab, we launched, resized, managed, monitored, and terminated an Amazon EC2 instance. We also configured security groups, set up CloudWatch alarms, and tested termination protection. By completing these tasks, we gained hands-on experience with key features of Amazon EC2.
+We Successfully launched, resized, managed, monitored, and terminated an Amazon EC2 instance. We also configured security groups, set up CloudWatch alarms, and tested termination protection. By completing these tasks, we gained hands-on experience with key features of Amazon EC2.
