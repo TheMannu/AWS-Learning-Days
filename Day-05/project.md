@@ -1,6 +1,15 @@
-## Lab 5: Creating a Virtual Private Cloud
+## Creating a Virtual Private Cloud
 
+### Overview
+Creating traditional networking is difficult. It involves equipments, cabling, complex configuration, and spacialist skills. Amazon Virtual Private Cloud(Amazon VPC) hides the complexity and simplifies the deployment of secure private networks.
+
+   - In this project, we will 
+      - Create our own Virtual Private Cloud (VPC).
+      - Deploy Resources.
+      - Create Private Peering Connection between VPCs.
 ### Objectives
+
+After completing this project, we will learn how to: 
 
 1. Deploy a VPC
 2. Create an internet gateway and attach it to the VPC
@@ -9,19 +18,21 @@
 5. Create an application server to test the VPC
 
 ### Architecture Overview
-At the end of this lab, your architecture will look like the following example:
+At the end of this project, our architecture will look like the following diagram:
 
 ![Architecture Example](https://user-images.githubusercontent.com/89054489/232357827-5b682018-5764-4deb-8fd1-b9e0c55e3c97.png)
-
-### Duration
-This lab requires approximately 45 minutes to complete.
 
 ---
 
 ### Task 1: Creating a VPC
 
+   A VPC is a virtual network that is dedicated to our Amazon Web Services (AWS) account. It is logically isolated from other virtual networksin the AWS cloud. We can launch AWS resources, such as Amazon Elastic Compute Cloud (Amazon EC2) instance, into the VPC. We can configure the VPC by modifying its ip address range and can create subnets. we can also configure route table, network gateway, and security settings.
+
 1. **Navigate to VPC**: In the AWS Management Console, choose **VPC** from the Services menu.
-2. **Create VPC**:
+2. **Create VPC**: A default VPC is provided so that we can launch resources as soon as we start using AWS. There is also a shared VPC that we will use later in this project. However we can create our own VPC.
+
+   The VPC will have a CLassless Inter-Domain Routing (CIDR) range 10.0.0.0/16, which include all IP address that starts with 10.0.x.x. It contains more than 65,000 addresses. Later we will devide these addresses into separate subnets.
+
    - In the left navigation pane, choose **Your VPCs**.
    - Choose **Create VPC**.
    - For **Resources to create**, choose **VPC only**.
@@ -31,15 +42,38 @@ This lab requires approximately 45 minutes to complete.
      - **Tenancy**: Default
      - **Tags**: Key: Name, Value: Lab VPC
    - Choose **Create VPC**.
+
 3. **Enable DNS Hostnames**:
    - On the VPC Details page, choose the **Tags** tab.
+
+   Tags are useful for identifying resources. For example, we can use a tag to identify cost centers or different environments (such as development, test, or production).
+
    - Choose **Actions** and select **Edit VPC settings**.
    - In the DNS settings section, select **Enable DNS hostnames**.
+
+   This option assigns a friendly Domain Name System (DNS) name to EC2 instances in the VPC, such as the following: ec2-52-42-133-255.us-east-1.compute.amazonaws.com
+
    - Choose **Save**.
 
-### Task 2: Creating Subnets
+   Any EC2 instances that are launched into the VPC now automatically receive a DNS hostname. We can also add a more-meaningful DNS name (such as app.example.com) later by using Amazon Route 53.
 
-1. **Create a Public Subnet**:
+
+**Images for Reference**
+![](https://user-images.githubusercontent.com/89054489/232374427-404f31cd-a6a6-4539-9c04-e9b941a31335.png)
+![](https://user-images.githubusercontent.com/89054489/232375047-06d48d2f-5437-4b99-866e-0fb04a9d6068.png)
+![](https://user-images.githubusercontent.com/89054489/232375255-eae5ed2c-82ce-43ff-913c-fd94a4925f79.png)
+![](https://user-images.githubusercontent.com/89054489/232375410-d04e8f13-9c8c-462a-ae18-6a00a2e75436.png)
+![](https://user-images.githubusercontent.com/89054489/232375544-7686adc1-98f5-42d5-b9f8-0ccea94fb481.png)
+
+
+### Task 2: Creating Subnets
+A subnet is a subrange of IP addresses in the VPC .AWS resources can be launched into a specific subnet. Use a public subnet for resources that must be connected to the internet, and use a private subnet for resources that must remain isolated from the internet,such as application source codes etc.
+
+In this task we will create a public subnet and a private subnet:
+
+![](https://user-images.githubusercontent.com/89054489/232357859-cb473d52-489b-4dab-9ad4-80d0a829a52b.png)
+
+1. **Create a Public Subnet** : We can use the public subnet for internet-facing resources.
    - In the left navigation pane, choose **Subnets**.
    - Choose **Create subnet**.
    - Configure the settings:
@@ -48,28 +82,65 @@ This lab requires approximately 45 minutes to complete.
      - **Availability zone**: Select the first Availability Zone in the list.
      - **IPv4 CIDR block**: 10.0.0.0/24
    - Choose **Create subnet**.
+
+   The VPC has a CIDR block of 10.0.0.0/16, which includes all 10.0.x.x IP addresses. The subnet we just created has a CIDR block of 10.0.0.0/24, which includes all 10.0.0.x IP addresses. They might look similar, but the subnet is smaller than the VPC because of the /24 in the CIDR range.
+
+Now configure the subnet to automatically assign a public IP address for all instances that are launched in it.
+
    - Select the check box for **Public Subnet**.
    - Choose **Actions** and select **Edit subnet settings**.
    - Under **Auto-assign IP settings**, select **Enable auto-assign public IPv4 address**.
    - Choose **Save**.
 
-2. **Create a Private Subnet**:
+Though this subnet is named Public Subnet, it is not yet public. A public subnet must have an internet gateway, which we will attach in the next task.
+
+2. **Create a Private Subnet** : We  use the private subnet for resources that must remain isolated from the internet.
    - Repeat the steps above to create another subnet with the following settings:
      - **Subnet name**: Private Subnet
      - **IPv4 CIDR block**: 10.0.2.0/23
 
+The CIDR block of 10.0.2.0/23 includes all IP addresses that start with 10.0.2.x and 10.0.3.x. This is twice as large as the public subnet because most resources should be kept private unless they specifically must be accessible from the internet.
+
+The VPC now has two subnets. However, the public subnet for now is totally isolated and cannot communicate with resources outside the VPC. 
+
+In Next task, we will configure the public subnet to connect to the internet via an internet gateway.
+
+**Images for Reference**
+
+![](https://user-images.githubusercontent.com/89054489/232375676-ff8b58be-85cb-411c-90c7-9e2ff0bcc742.png)
+![](https://user-images.githubusercontent.com/89054489/232375892-e0c89829-ff52-4e07-a722-4713a46bcbfd.png)
+![](https://user-images.githubusercontent.com/89054489/232375986-619d892a-fa99-47cd-8cd6-87ed9b8cc755.png)
+![](https://user-images.githubusercontent.com/89054489/232376091-f4a246c6-a5d7-400b-bfc5-93408255b3f6.png)
+![](https://user-images.githubusercontent.com/89054489/232376326-9473cb49-3fc3-4a89-8505-3f2cc8e877f4.png)
+
 ### Task 3: Creating an Internet Gateway
 
+An internet Gateway is a horizontally scaled, redundant, and highly available VPC componenet. It allows communication between the instance in a VPC and the internet. It imposes no availability risks or bandwidth constarains on the network traffic
+
+   An Internet gateway serves two purposes:
+   - To provide a target in route table that connects to the internet
+   - to perform network address translation (NAT) for instance that were assigned public IPv4 addresses
+
+In this task, we will create an internet gteway so that Internet Trafic can access the public subnet.
 1. **Create Internet Gateway**:
    - In the left navigation pane, choose **Internet Gateways**.
    - Choose **Create internet gateway**.
    - Configure the settings:
      - **Name tag**: Lab IGW
    - Choose **Create internet gateway**.
-2. **Attach Internet Gateway**:
+2. **Attach Internet Gateway**: We can now attach the internet gateway to our VPC
    - Choose **Actions** and then **Attach to VPC**.
    - For **Available VPCs**, select **Lab VPC**.
    - Choose **Attach internet gateway**.
+
+This action attaches the internet gateway to our Lab VPC. Although we can create an internet gateway and attached it to our VPC, we must also configure the public subnet route table so that it uses the internet gateway.
+
+**Images for Reference**
+
+![](https://user-images.githubusercontent.com/89054489/232376429-03176fbc-a959-4ff5-b379-e312916a0a97.png)
+![](https://user-images.githubusercontent.com/89054489/232376470-7df08d65-82e3-4d51-91df-1dac14883343.png)
+![](https://user-images.githubusercontent.com/89054489/232376557-ed63a481-8664-4654-8764-4aaeff3fbf8a.png)
+![](https://user-images.githubusercontent.com/89054489/232376648-0eafce9b-eee2-43f6-962a-f6076eb5eb96.png)
 
 ### Task 4: Configuring Route Tables
 
