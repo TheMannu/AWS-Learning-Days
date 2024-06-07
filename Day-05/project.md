@@ -18,7 +18,7 @@ After completing this project, we will learn how to:
 5. Create an application server to test the VPC
 
 ### Architecture Overview
-At the end of this project, our architecture will look like the following diagram:
+      At the end of this project, our architecture will look like the following diagram:
 
 ![Architecture Example](https://user-images.githubusercontent.com/89054489/232357827-5b682018-5764-4deb-8fd1-b9e0c55e3c97.png)
 
@@ -46,12 +46,12 @@ At the end of this project, our architecture will look like the following diagra
 3. **Enable DNS Hostnames**:
    - On the VPC Details page, choose the **Tags** tab.
 
-   Tags are useful for identifying resources. For example, we can use a tag to identify cost centers or different environments (such as development, test, or production).
+      Tags are useful for identifying resources. For example, we can use a tag to identify cost centers or different environments (such as development, test, or production).
 
    - Choose **Actions** and select **Edit VPC settings**.
    - In the DNS settings section, select **Enable DNS hostnames**.
 
-   This option assigns a friendly Domain Name System (DNS) name to EC2 instances in the VPC, such as the following: ec2-52-42-133-255.us-east-1.compute.amazonaws.com
+      This option assigns a friendly Domain Name System (DNS) name to EC2 instances in the VPC, such as the following: ec2-52-42-133-255.us-east-1.compute.amazonaws.com
 
    - Choose **Save**.
 
@@ -71,7 +71,7 @@ At the end of this project, our architecture will look like the following diagra
 ### Task 2: Creating Subnets
 A subnet is a subrange of IP addresses in the VPC .AWS resources can be launched into a specific subnet. Use a public subnet for resources that must be connected to the internet, and use a private subnet for resources that must remain isolated from the internet,such as application source codes etc.
 
-In this task we will create a public subnet and a private subnet:
+      In this task we will create a public subnet and a private subnet:
 
 ![](https://user-images.githubusercontent.com/89054489/232357859-cb473d52-489b-4dab-9ad4-80d0a829a52b.png)
 
@@ -94,9 +94,10 @@ Now configure the subnet to automatically assign a public IP address for all ins
    - Under **Auto-assign IP settings**, select **Enable auto-assign public IPv4 address**.
    - Choose **Save**.
 
-Though this subnet is named Public Subnet, it is not yet public. A public subnet must have an internet gateway, which we will attach in the next task.
+   Though this subnet is named Public Subnet, it is not yet public. A public subnet must have an internet gateway, which we will attach in the next task.
 
-2. **Create a Private Subnet** : We  use the private subnet for resources that must remain isolated from the internet.
+2. **Create a Private Subnet** :   
+   We  use the private subnet for resources that must remain isolated from the internet.
    - Repeat the steps above to create another subnet with the following settings:
      - **Subnet name**: Private Subnet
      - **IPv4 CIDR block**: 10.0.2.0/23
