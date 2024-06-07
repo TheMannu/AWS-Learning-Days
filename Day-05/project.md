@@ -218,6 +218,10 @@ In this task, we will
 
 ### Task 5: Creating a Security Group for the Application Server
 
+A security group acts as a virtual firewall for instances to control inbound and outbound traffic. Security groups operate at the level of the elastic network interface for the instance. Security groups do not operate at the subnet level. Thus, each instance can have its own firewall that controls traffic. If we do not specify a particular security group at launch time, the instance is automatically assigned to the default security group for the VPC.
+
+In this task, We will create a security group that allows users to access our application server via HTTP.
+
 1. **Create Security Group**:
    - In the left navigation pane, choose **Security Groups**.
    - Choose **Create security group**.
@@ -226,7 +230,9 @@ In this task, we will
      - **Description**: Allow HTTP traffic
      - **VPC**: Lab VPC
    - Choose **Create security group**.
-2. **Add Inbound Rule**:
+
+2. **Add Inbound Rule**: The settings for Inbound rule determines what traffic is perminted to reach the instance. We configure it to permit HTTP(port 80) trafic that comes from anywhere on the internet(0.0.0.0/0).
+
    - Choose the **Inbound Rules** tab.
    - Choose **Edit inbound rules**.
    - Choose **Add rule**.
@@ -235,6 +241,17 @@ In this task, we will
      - **Source type**: Anywhere IPv4
      - **Description**: Allow web access
    - Choose **Save rules**.
+
+   We will use this App-SG security Group in next task.
+
+**Images for Reference**
+
+
+![](https://user-images.githubusercontent.com/89054489/232377519-ab35afd8-ca33-4b6d-831b-ef321e91149e.png)
+![](https://user-images.githubusercontent.com/89054489/232377674-f537fa1c-3836-4ccb-94f0-8710eff89de3.png)
+![](https://user-images.githubusercontent.com/89054489/232377891-8ddb2ed2-673f-4d09-9472-976411a8211c.png)
+
+---
 
 ### Task 6: Launching an Application Server in the Public Subnet
 
