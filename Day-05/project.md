@@ -179,6 +179,7 @@ In this task, we will
    - Configure the settings:
      - **Name**: Public Route Table
      - **VPC**: Lab VPC
+
    - Choose **Create route table**.
 
    Now add a route to direct internet-bound traffic (0.0.0.0/0) to the internet gateway.
@@ -188,7 +189,9 @@ In this task, we will
    - Choose **Add route**.
    - Configure the settings: 
      - **Destination**: 0.0.0.0/0
+
      - **Target**: Internet Gateway, form the dropdown list select **Lab IGW**
+
    - Choose **Save changes**.
 
 3. **Associate Route Table with Public Subnet**: This last step associates this new route table with the public subnet.
@@ -224,11 +227,17 @@ A security group acts as a virtual firewall for instances to control inbound and
 In this task, We will create a security group that allows users to access our application server via HTTP.
 
 1. **Create Security Group**:
+
    - In the left navigation pane, choose **Security Groups**.
+
    - Choose **Create security group**.
+
    - Configure the settings:
+
      - **Security group name**: App-SG
+
      - **Description**: Allow HTTP traffic
+
      - **VPC**: Lab VPC
    - Choose **Create security group**.
 
@@ -238,9 +247,13 @@ In this task, We will create a security group that allows users to access our ap
    - Choose **Edit inbound rules**.
    - Choose **Add rule**.
    - Configure the settings:
+
      - **Type**: HTTP
+
      - **Source type**: Anywhere IPv4
+
      - **Description**: Allow web access
+
    - Choose **Save rules**.
 
    We will use this App-SG security Group in next task.
@@ -255,12 +268,15 @@ In this task, We will create a security group that allows users to access our ap
 ---
 
 ### Task 6: Launching an Application Server in the Public Subnet
-
+To test that your VPC is correctly configured, Now launch an EC2 instance into the public subnet. Also confirm that we can access the EC2 instance from the internet.
 1. **Launch EC2 Instance**:
    - Choose **EC2** from the Services menu.
+
    - Choose **Launch instance**.
+
    - Configure the instance settings:
      - **Name**: App Server
+
      - **Application and OS Images**: Amazon Linux 2 (default)
      - **Instance type**: t2.micro (default)
      - **Key pair**: Proceed without a key pair (not recommended)
@@ -272,8 +288,8 @@ In this task, We will create a security group that allows users to access our ap
      - **Configure storage**: Keep default
      - **Advanced details**: 
        - **IAM instance profile**: Inventory-App-Role
-       - **User data**: 
-         ```bash
+       - **User data**: Copy and Paste the Below code block
+         ```
          #!/bin/bash
          # Install Apache Web Server and PHP
          yum install -y httpd mysql
@@ -287,19 +303,36 @@ In this task, We will create a security group that allows users to access our ap
          # Turn on web server
          chkconfig httpd on
          service httpd start
+
          ```
    - Choose **Launch instance**.
+
 2. **Verify the Instance**:
    - Choose **View all instances**.
-   - Wait for the instance state to be **Running**.
+   - Wait for the instance state to be **Running**. You can choose refresh occasionally to update the display
    - Select **App Server**.
+
    - Copy the **Public IPv4 address** from the Details tab.
+
    - Open a new browser tab, paste the IP address, and press Enter. 
 
-If everything is configured correctly, you should see the Inventory application with the message: "Please configure Settings to connect to database."
+If everything is configured correctly, It will show the Inventory application with the message: "Please configure Settings to connect to database."
+
+We have not configured any database settings yet, but the appearance of the Inventory application demonstrates that the public subnet was correctly configured.
+
+If the Inventory application does not appear, wait for 60 seconds and refresh  the page to try again. It can take a couple of minutes for the EC2 instance to boot and run the script that installs the software.
+
+**Images for Reference**
+
+![](https://user-images.githubusercontent.com/89054489/232378000-0f920906-250c-4806-83cb-33b39b719bc8.png)
+![](https://user-images.githubusercontent.com/89054489/232381786-f6f38543-6968-4c0b-bb1e-9bfd09a743e0.png)
+![](https://user-images.githubusercontent.com/89054489/232381818-545b800a-9f6b-4910-9148-4b98aaae365e.png)
+![](https://user-images.githubusercontent.com/89054489/232381868-68542bfd-bae6-4276-b039-70af4111b41d.png)
+![](https://user-images.githubusercontent.com/89054489/232381970-eaea6c73-d795-4441-aaa9-72557722c2c2.png)
+![](https://user-images.githubusercontent.com/89054489/232382044-c6a7d974-b858-4a47-ac9b-550673f09a28.png)
+![](https://user-images.githubusercontent.com/89054489/232382122-ce7ec88a-c3a8-4fbf-b410-0b50bdecb797.png)
+![](https://user-images.githubusercontent.com/89054489/232378662-67ba405f-9126-4704-9ef1-825d9bf4589e.png)
 
 ---
-
-**Lab Complete**: 
-
-Congratulations! You have successfully completed the lab.
+ 
+Congratulations! We have successfully completed the Project.
