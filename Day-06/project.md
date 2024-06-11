@@ -1,26 +1,21 @@
-# Lab 6: Introduction to IAM
+# Introduction to IAM
 
-## Lab Overview
-In this lab, you will explore users, groups, and policies in the AWS Identity and Access Management (IAM) service.
+## Overview
+In this, we will explore users, groups, and policies in the AWS Identity and Access Management (IAM) service.
 
 ### Objectives
-After completing this lab, you will know how to:
+After completing this project, we will know how to:
 - Explore pre-created IAM Users and Groups.
 - Inspect IAM policies as applied to the pre-created groups.
 - Follow a real-world scenario, adding users to groups with specific capabilities enabled.
 - Locate and use the IAM sign-in URL.
 - Experiment with the effects of policies on service access.
 
-### Duration
-This lab requires approximately 40 minutes to complete.
-
-### Prerequisites
-- Access to the AWS Management Console.
-
 ---
 
 ## Task 1: Explore the Users and Groups
 
+in this task, we will explore the user and group that have already been created in IAM.
 1. **Identify the AWS Region:**
    - Note the Region displayed in the upper-right corner of the console page (e.g., N. Virginia).
 
